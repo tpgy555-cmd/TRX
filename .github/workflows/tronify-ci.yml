@@ -15,12 +15,14 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.10"
-      - name: Apply wallet CSS + official handoff
+      - name: Apply wallet flow patch only (keep landing UI)
         run: python tools/apply_wallet_fixes.py
       - name: Install crypto deps
         run: pip install pycryptodome base58 ecdsa
       - name: TIP-191 unit tests
         run: python test_tip191_verify.py
+      - name: Dual register/switch framework tests
+        run: python test_dual_framework.py
       - name: Wallet page contract tests
         run: python test_wallet_page.py
       - name: Compile backend
@@ -32,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Apply wallet CSS + official handoff before upload
+      - name: Apply wallet flow patch only (keep landing UI)
         run: python tools/apply_wallet_fixes.py
       - name: Upload files + reload WebApp
         env:
